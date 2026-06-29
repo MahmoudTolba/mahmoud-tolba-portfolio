@@ -23,7 +23,7 @@ export default function Projects() {
       y: 0,
       transition: { duration: 0.6, ease: "easeOut" },
     },
-  };
+  }as const;
 
   return (
     <section id="projects" className="py-24 px-6 relative border-t border-outline-variant/10 bg-transparent">
