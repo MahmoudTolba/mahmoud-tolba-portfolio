@@ -1,5 +1,6 @@
 "use client";
 
+import { Variants } from "framer-motion"; // 👈 تأكد إن السطر ده موجود فوق خالص في الملف
 import { motion } from "framer-motion";
 import { Briefcase, Calendar, ShieldCheck } from "lucide-react";
 import { portfolioData } from "../../config/portfolioData";
@@ -8,14 +9,14 @@ export default function Experience() {
   const { experience } = portfolioData;
 
   // تأثيرات الحركية لكل عنصر في الخط الزمني
-  const itemVariants = {
-    hidden: { opacity: 0, x: -30 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.5, ease: "easeOut" },
-    },
-  };
+ const itemVariants: Variants = { // 👈 ضفنا الـ Type هنا (: Variants)
+  hidden: { opacity: 0, x: -30 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
 
   return (
     <section id="experience" className="py-24 px-6 relative border-t border-outline-variant/10 bg-transparent">
