@@ -16,7 +16,7 @@ export default function Experience() {
     x: 0,
     transition: { duration: 0.5, ease: "easeOut" },
   },
-};
+}as const;
 
   return (
     <section id="experience" className="py-24 px-6 relative border-t border-outline-variant/10 bg-transparent">
