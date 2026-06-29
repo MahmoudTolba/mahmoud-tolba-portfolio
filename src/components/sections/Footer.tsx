@@ -149,6 +149,7 @@ export default function Footer() {
             Tolba.
           </span>
           
+          
           <div className="flex items-center gap-1.5 font-body text-xs text-on-surface-variant">
             <Copyright className="w-3.5 h-3.5 text-outline" />
             <span>2026 Mahmoud Tolba. All rights reserved.</span>
