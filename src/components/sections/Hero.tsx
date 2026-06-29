@@ -67,7 +67,7 @@ export default function Hero() {
       y: 0,
       transition: { duration: 0.5, ease: "easeOut" },
     },
-  };
+  }as const;
 
   return (
     <section className="relative min-h-screen flex flex-col justify-center items-center px-6 pt-32 pb-16 overflow-hidden">
