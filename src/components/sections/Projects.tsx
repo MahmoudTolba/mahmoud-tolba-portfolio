@@ -26,7 +26,7 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="py-24 px-6 relative border-t border-outline-variant/10 bg-background">
+    <section id="projects" className="py-24 px-6 relative border-t border-outline-variant/10 bg-transparent">
       {/* تأثير ضوئي خفيف في الخلفية ليعطي عمق بصري */}
       <div className="absolute top-1/3 right-10 w-[250px] h-[250px] bg-secondary/5 rounded-full blur-[100px] pointer-events-none" />
       

@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Mail, ArrowUpRight, Send, Copyright } from "lucide-react";
-import { portfolioData } from "../../config/portfolioData";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Mail, Send, Copyright, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 
 // كومبوننت داخلي لأيقونة GitHub بـ SVG أصلي ونظيف
 function GitHubIcon({ className }: { className?: string }) {
@@ -20,7 +20,7 @@ function GitHubIcon({ className }: { className?: string }) {
   );
 }
 
-// كومبوننت داخلي لأيقونة LinkedIn بـ SVG أصلي ومضمون لتجنب مشاكل الـ Import
+// كومبوننت داخلي لأيقونة LinkedIn بـ SVG أصلي ومضمون
 function LinkedInIcon({ className }: { className?: string }) {
   return (
     <svg 
@@ -37,12 +37,40 @@ function LinkedInIcon({ className }: { className?: string }) {
 }
 
 export default function Footer() {
-  const handleSubmit = (e: React.FormEvent) => {
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setStatus("loading");
+
+    try {
+      const response = await fetch("/api/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setStatus("success");
+        setFormData({ name: "", email: "", message: "" }); // تفريغ الـ Input بعد النجاح
+        setTimeout(() => setStatus("idle"), 4000); // إخفاء الإشعار بعد 4 ثواني
+      } else {
+        console.error("Server API issue:", result);
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 4000);
+      }
+    } catch (err) {
+      console.error("Network crash error:", err);
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
   };
 
   return (
-    <section id="contact" className="pt-24 pb-12 px-6 relative border-t border-outline-variant/10 bg-background overflow-hidden">
+    <section id="contact" className="pt-24 pb-12 px-6 relative border-t border-outline-variant/10 bg-transparent overflow-hidden">
       <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-[1200px] mx-auto space-y-16 relative z-10">
@@ -64,18 +92,18 @@ export default function Footer() {
 
             <div className="flex flex-col gap-3 pt-2">
               <a 
-                href="mailto:mahmoud.ali.tolba@gmail.com" 
+                href="mailto:mahmoudtolba499@gmail.com" 
                 className="inline-flex items-center gap-3 font-body text-sm text-on-surface-variant hover:text-primary transition-colors group w-fit"
               >
                 <div className="p-2.5 rounded-xl bg-surface-container border border-outline-variant/20 text-outline group-hover:text-primary group-hover:border-primary/30 transition-all">
                   <Mail className="w-4 h-4" />
                 </div>
-                mahmoud.ali.tolba@gmail.com
+                mahmoudtolba499@gmail.com
               </a>
 
               <div className="flex items-center gap-4 pt-4">
                 <a 
-                  href="https://github.com/mahmoud-tolba" 
+                  href="https://github.com/MahmoudTolba" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="p-3 rounded-xl bg-surface-container border border-outline-variant/20 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all shadow-sm"
@@ -84,7 +112,7 @@ export default function Footer() {
                   <GitHubIcon className="w-5 h-5" />
                 </a>
                 <a 
-                  href="#" 
+                  href="https://www.linkedin.com/in/mahmoud-tolba-2910b9207/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="p-3 rounded-xl bg-surface-container border border-outline-variant/20 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all shadow-sm"
@@ -105,8 +133,11 @@ export default function Footer() {
                     type="text" 
                     id="name" 
                     required
-                    placeholder="John Doe"
-                    className="w-full font-body text-sm px-4 py-3 rounded-xl bg-background border border-outline-variant/30 text-on-background focus:outline-none focus:border-primary transition-colors placeholder:text-outline/50"
+                    disabled={status === "loading"}
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="Mohamed Ahmed"
+                    className="w-full font-body text-sm px-4 py-3 rounded-xl bg-background border border-outline-variant/30 text-on-background focus:outline-none focus:border-primary transition-colors placeholder:text-outline/50 disabled:opacity-50"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -115,8 +146,11 @@ export default function Footer() {
                     type="email" 
                     id="email" 
                     required
-                    placeholder="john@example.com"
-                    className="w-full font-body text-sm px-4 py-3 rounded-xl bg-background border border-outline-variant/30 text-on-background focus:outline-none focus:border-primary transition-colors placeholder:text-outline/50"
+                    disabled={status === "loading"}
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="Mohamed@example.com"
+                    className="w-full font-body text-sm px-4 py-3 rounded-xl bg-background border border-outline-variant/30 text-on-background focus:outline-none focus:border-primary transition-colors placeholder:text-outline/50 disabled:opacity-50"
                   />
                 </div>
               </div>
@@ -127,18 +161,63 @@ export default function Footer() {
                   id="message" 
                   rows={4}
                   required
+                  disabled={status === "loading"}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Tell me about your next-gen web project..."
-                  className="w-full font-body text-sm px-4 py-3 rounded-xl bg-background border border-outline-variant/30 text-on-background focus:outline-none focus:border-primary transition-colors placeholder:text-outline/50 resize-none"
+                  className="w-full font-body text-sm px-4 py-3 rounded-xl bg-background border border-outline-variant/30 text-on-background focus:outline-none focus:border-primary transition-colors placeholder:text-outline/50 resize-none disabled:opacity-50"
                 />
               </div>
 
+              {/* 🎉 زر الإرسال الذكي بتأثير الـ Loading والتشفير التفاعلي */}
               <button 
                 type="submit"
-                className="w-full inline-flex items-center justify-center gap-2 font-heading bg-primary text-on-primary px-5 py-3.5 rounded-xl font-bold hover:bg-primary-container transition-all group shadow-md shadow-primary/5"
+                disabled={status === "loading"}
+                className={`w-full inline-flex items-center border justify-center gap-2 font-heading px-5 py-3.5 rounded-xl font-bold transition-all group shadow-md text-on-primary
+                  ${status === "loading" 
+                    ? "bg-primary/70 cursor-not-allowed border-transparent" 
+                    : "bg-primary hover:bg-primary-container border-primary shadow-primary/5 active:scale-[0.98]"
+                  }`}
               >
-                Send Message
-                <Send className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                {status === "loading" ? (
+                  <>
+                    <span>Sending Message...</span>
+                    <Loader2 className="w-4 h-4 animate-spin text-on-primary" />
+                  </>
+                ) : (
+                  <>
+                    <span>Send Message</span>
+                    <Send className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </>
+                )}
               </button>
+
+              {/* 📬 إشعارات نجاح أو فشل الإرسال بأنيميشن سلس */}
+              <AnimatePresence>
+                {status === "success" && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="flex items-center gap-2 text-green-400 bg-green-500/10 border border-green-500/20 p-3 rounded-xl text-xs sm:text-sm font-body justify-center"
+                  >
+                    <CheckCircle2 className="w-4 h-4 shrink-0" />
+                    <span>Your message has been sent successfully! Thanks for reaching out.</span>
+                  </motion.div>
+                )}
+
+                {status === "error" && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="flex items-center gap-2 text-red-400 bg-red-500/10 border border-red-500/20 p-3 rounded-xl text-xs sm:text-sm font-body justify-center"
+                  >
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>Failed to send message. Please try again.</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </form>
           </div>
 
@@ -148,8 +227,7 @@ export default function Footer() {
           <span className="font-brush text-2xl text-primary tracking-wider">
             Tolba.
           </span>
-          
-          
+
           <div className="flex items-center gap-1.5 font-body text-xs text-on-surface-variant">
             <Copyright className="w-3.5 h-3.5 text-outline" />
             <span>2026 Mahmoud Tolba. All rights reserved.</span>

@@ -1,11 +1,55 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowDown, Briefcase } from "lucide-react";
 import { portfolioData } from "../../config/portfolioData";
 
 export default function Hero() {
   const { hero, stats } = portfolioData;
+
+  // 📝 مصفوفة الجمل الإنجليزية الاحترافية
+  const words = [
+    "Available for Opportunities",
+    "Open for Freelance Projects",
+    "Ready for Remote Work",
+    "Bringing Ideas to Life"
+  ];
+
+  // هيديروا حالة الكتابة والمسح والتنقل بين الجمل Hooks الـ
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [currentText, setCurrentText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(100);
+
+  useEffect(() => {
+    const handleType = () => {
+      const fullText = words[currentWordIndex];
+      
+      if (!isDeleting) {
+        // تأثير الكتابة: إضافة حرف حرف
+        setCurrentText(fullText.substring(0, currentText.length + 1));
+        setTypingSpeed(80); // سرعة الكتابة
+      } else {
+        // تأثير المسح: حذف حرف حرف
+        setCurrentText(fullText.substring(0, currentText.length - 1));
+        setTypingSpeed(40); // سرعة المسح بتكون أسرع
+      }
+
+      // إذا اكتملت كتابة الجملة بالكامل، ننتظر ثانية ونص قبل ما نمسح
+      if (!isDeleting && currentText === fullText) {
+        setTimeout(() => setIsDeleting(true), 1500);
+      } 
+      // إذا اتمسحت الجملة بالكامل، ننقل على الجملة اللي بعدها في المصفوفة
+      else if (isDeleting && currentText === "") {
+        setIsDeleting(false);
+        setCurrentWordIndex((prev) => (prev + 1) % words.length);
+      }
+    };
+
+    const timer = setTimeout(handleType, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [currentText, isDeleting, currentWordIndex]);
 
   // إعدادات أنيميشن الظهور التدريجي (Framer Motion Variants)
   const containerVariants = {
@@ -36,19 +80,23 @@ export default function Hero() {
         initial="hidden"
         animate="visible"
       >
-        {/* الحالة / Verfügbarkeit (Status Badge) */}
-        <motion.div
-          variants={itemVariants}
-          className="inline-flex items-center gap-2 bg-surface-container-high border border-outline-variant/30 px-4 py-2 rounded-full mb-6"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
-          </span>
-          <span className="font-body text-xs sm:text-sm text-on-surface font-medium">
-            {hero.status}
-          </span>
-        </motion.div>
+        {/* الحالة المتغيرة / Status Badge مع تأثير الكيبورد */}
+        {/* الحالة المتغيرة / Status Badge مع تأثير الكيبورد الاحترافي */}
+<motion.div
+  variants={itemVariants}
+  className="inline-flex items-center gap-2 bg-surface-container-high border border-outline-variant/30 px-4 py-2 rounded-full mb-6 min-h-[40px] w-[290px] sm:w-[320px] justify-start"
+>
+  {/* نقطة النبض الخضراء/السيان الجانبية ثابتة في مكانها */}
+  <span className="relative flex h-2 w-2 shrink-0">
+    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+    <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+  </span>
+
+  {/* نص الكتابة الديناميكي: هنا سر الطبخة! خط المؤشر لزق في النص مباشرة */}
+  <span className="font-body text-xs sm:text-sm text-on-surface font-medium border-r-2 border-primary pr-1 animate-blink inline-block w-auto whitespace-nowrap">
+    {currentText}
+  </span>
+</motion.div>
 
         {/* العنوان الرئيسي بخط العناوين (Headline) */}
         <motion.h1

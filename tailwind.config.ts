@@ -62,7 +62,7 @@ const config: Config = {
         DEFAULT: "0.125rem",
         lg: "0.25rem",
         xl: "0.5rem",
-        full: "0.75rem",
+        full: "0.75rem", // تم الإبقاء عليها كما طلبتها لتصاميم الكروت الخاصة بك
       },
       spacing: {
         xs: "4px",
@@ -73,6 +73,12 @@ const config: Config = {
         lg: "48px",
         xl: "80px",
         "container-max": "1200px",
+      },
+      // 🚀 إضافة الـ Keyframes والـ Animations عشان الـ Marquee والخلفية يشتغلوا طيران
+      animation: {
+        "marquee-left": "marqueeLeft 25s linear infinite",
+        "marquee-right": "marqueeRight 25s linear infinite",
+        "ambient-pulse": "pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },
   },

@@ -18,7 +18,7 @@ export default function Experience() {
   };
 
   return (
-    <section id="experience" className="py-24 px-6 relative border-t border-outline-variant/10 bg-background">
+    <section id="experience" className="py-24 px-6 relative border-t border-outline-variant/10 bg-transparent">
       {/* تأثير توهج خلفي خفيف جداً */}
       <div className="absolute bottom-1/4 left-10 w-[200px] h-[200px] bg-tertiary/5 rounded-full blur-[80px] pointer-events-none" />
 

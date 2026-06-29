@@ -3,6 +3,7 @@
 import { Laptop, Cpu, Terminal, Code2, Database, Layers, Flame, Globe } from "lucide-react";
 import { portfolioData } from "../../config/portfolioData";
 
+// دالة ذكية لإرجاع الأيقونة المناسبة بناءً على الاسم الفعلي للمهارة
 function SkillIcon({ name }: { name: string }) {
   const norm = name.toLowerCase();
   if (norm.includes("node") || norm.includes("express")) return <Terminal className="w-5 h-5" />;
@@ -16,14 +17,17 @@ function SkillIcon({ name }: { name: string }) {
 export default function AboutSkills() {
   const { about, skills } = portfolioData;
 
+  // تقسيم المهارات بشكل متساوٍ لضمان حركة انسيابية موازية
   const half = Math.ceil(skills.length / 2);
   const row1 = [...skills.slice(0, half), ...skills.slice(0, half)]; 
   const row2 = [...skills.slice(half), ...skills.slice(half)];
 
   return (
-    <section id="about" className="py-24 px-6 relative overflow-hidden border-t border-outline-variant/10 bg-background">
-      <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center mb-16">
+    <section id="about" className="py-24 px-6 relative overflow-hidden border-t border-outline-variant/10 bg-transparent">
+      {/* شبكة توزيع احترافية 50/50 لتناسق المظهر البصري بالكامل */}
+      <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         
+        {/* الجزء الأيسر: نصوص التعريف والبطاقة التقنية */}
         <div className="lg:col-span-6 space-y-6">
           <div className="space-y-2">
             <span className="text-secondary font-heading text-sm font-semibold tracking-wider uppercase block">
@@ -40,8 +44,8 @@ export default function AboutSkills() {
             ))}
           </div>
 
-          <div className="p-4 rounded-2xl bg-surface-container-low border border-outline-variant/20 flex items-start gap-4">
-            <div className="p-3 rounded-xl bg-tertiary/10 text-tertiary">
+          <div className="p-4 rounded-2xl bg-surface-container-low border border-outline-variant/20 flex items-start gap-4 shadow-sm">
+            <div className="p-3 rounded-xl bg-tertiary/10 text-tertiary shrink-0">
               <Laptop className="w-6 h-6"/>
             </div>
             <div>
@@ -53,57 +57,62 @@ export default function AboutSkills() {
           </div>
         </div>
 
-        <div className="lg:col-span-6 flex flex-col justify-center lg:items-end">
-          <div className="max-w-sm space-y-2">
-            <h3 className="font-heading text-xl font-bold text-on-background flex items-center gap-2">
-              <Cpu className="w-5 h-5 text-primary"/>
-              Technical Stack Marquee
+        {/* الجزء الأيمن: الـ Marquee المدمج داخل حاوية مخصصة متناسقة الأبعاد */}
+        <div className="lg:col-span-6 w-full relative space-y-6">
+          <div className="space-y-1">
+            <h3 className="font-heading text-lg font-bold text-on-background flex items-center gap-2">
+              <Cpu className="w-4 h-4 text-primary"/>
+              Technical Stack
             </h3>
-            <p className="font-body text-sm text-on-surface-variant">
-              Hover over any technology card to freeze the infinite marquee and light up its custom design tokens.
-            </p>
+            {/* <p className="font-body text-xs text-on-surface-variant">
+              Hover over any card to pause the scroll and light up its custom design tokens.
+            </p> */}
+          </div>
+
+          {/* حاوية الـ Marquee الذكية بـ Fade Mask مذهل على الأطراف يمين ويسار */}
+          <div className="relative w-full flex flex-col gap-4 overflow-hidden py-4 [mask-image:linear-gradient(to_right,transparent,white_15%,white_85%,transparent)]">
+            
+            {/* الصف الأول: يمين لشمال */}
+            <div className="flex w-max gap-4 animate-marquee-left hover:[animation-play-state:paused]">
+              {row1.map((skill, index) => (
+                <div
+                  key={`r1-${index}`}
+                  className={`group flex items-center gap-3 px-5 py-3 rounded-xl bg-surface-container border border-outline-variant/20 min-w-[160px] cursor-pointer transition-all duration-300 ${skill.hoverColor} ${skill.shadowColor}`}
+                >
+                  {/* تصليح تمرير المتغير للـ Component عشان يسحب الأيقونة الصح */}
+                  <div className={`text-outline group-hover:scale-110 transition-transform duration-300 ${skill.textColor}`}>
+                    <SkillIcon name={skill.name}/>
+                  </div>
+                  <span className={`font-body text-sm font-semibold text-on-surface-variant transition-colors ${skill.textColor}`}>
+                    {skill.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* الصف الثاني: شمال ليمين */}
+            <div className="flex w-max gap-4 animate-marquee-right hover:[animation-play-state:paused]">
+              {row2.map((skill, index) => (
+                <div
+                  key={`r2-${index}`}
+                  className={`group flex items-center gap-3 px-5 py-3 rounded-xl bg-surface-container border border-outline-variant/20 min-w-[160px] cursor-pointer transition-all duration-300 ${skill.hoverColor} ${skill.shadowColor}`}
+                >
+                  <div className={`text-outline group-hover:scale-110 transition-transform duration-300 ${skill.textColor}`}>
+                    <SkillIcon name={skill.name}/>
+                  </div>
+                  <span className={`font-body text-sm font-semibold text-on-surface-variant transition-colors ${skill.textColor}`}>
+                    {skill.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+
           </div>
         </div>
+
       </div>
 
-      {/* شريط الـ Marquee اللانهائي السفلي */}
-      <div className="relative w-screen left-1/2 right-1/2 -mx-[50vw] flex flex-col gap-4 overflow-hidden py-4">
-        
-        {/* الصف الأول: يمين لشمال */}
-        <div className="flex w-max gap-4 animate-marquee-left hover:[animation-play-state:paused]">
-          {row1.map((skill, index) => (
-            <div
-              key={`r1-${index}`}
-              className={`group flex items-center gap-3 px-5 py-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20 min-w-[170px] cursor-pointer transition-all duration-300 ${skill.hoverColor} ${skill.shadowColor}`}
-            >
-              <div className={`text-on-surface-variant transition-colors ${skill.textColor}`}>
-                <SkillIcon name="{skill.name}"/>
-              </div>
-              <span className={`font-body text-sm font-semibold text-on-surface-variant transition-colors ${skill.textColor}`}>
-                {skill.name}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* الصف الثاني: شمال ليمين */}
-        <div className="flex w-max gap-4 animate-marquee-right hover:[animation-play-state:paused]">
-          {row2.map((skill, index) => (
-            <div
-              key={`r2-${index}`}
-              className={`group flex items-center gap-3 px-5 py-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20 min-w-[170px] cursor-pointer transition-all duration-300 ${skill.hoverColor} ${skill.shadowColor}`}
-            >
-              <div className={`text-on-surface-variant transition-colors ${skill.textColor}`}>
-                <SkillIcon name="{skill.name}"/>
-              </div>
-              <span className={`font-body text-sm font-semibold text-on-surface-variant transition-colors ${skill.textColor}`}>
-                {skill.name}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
+      {/* الأنيميشن المحسن فائق النعومة */}
       <style jsx global>{`
         @keyframes marqueeLeft {
           0% { transform: translateX(0); }
@@ -114,10 +123,10 @@ export default function AboutSkills() {
           100% { transform: translateX(0); }
         }
         .animate-marquee-left {
-          animation: marqueeLeft 30s linear infinite;
+          animation: marqueeLeft 25s linear infinite;
         }
         .animate-marquee-right {
-          animation: marqueeRight 30s linear infinite;
+          animation: marqueeRight 25s linear infinite;
         }
       `}</style>
     </section>
