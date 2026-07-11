@@ -79,14 +79,17 @@ export const portfolioData = {
       title: "individuals-rowad Dashboard",
       description: "A robust admin dashboard offering extensive analytical data views, consulting certification oversight, and financial metric monitors.",
       tags: ["HTML5", "Tailwind", "JS Dashboard"],
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80",
+      image: "/alrowad.png",
+      link: "https://rowad.ip4s.com/?culture=ar",
       altText: "Rowad Individuals Dashboard UI"
     },
     {
       title: "Wattani Aquaculture",
       description: "A prominent Saudi cooperative web solution built to enhance aquaculture development, supporting advanced multi-language localization.",
       tags: ["Nuxt 4", "i18n Localization", "Pinia"],
-      image: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&auto=format&fit=crop&q=80",
+      image: "/wattani.svg",
+      
+      link: "https://wattani-sa.com/",
       altText: "Wattani Project Management Data UI"
     },
     {

@@ -23,7 +23,7 @@ export default function Projects() {
       y: 0,
       transition: { duration: 0.6, ease: "easeOut" },
     },
-  }as const;
+  } as const;
 
   return (
     <section id="projects" className="py-24 px-6 relative border-t border-outline-variant/10 bg-transparent">
@@ -54,72 +54,79 @@ export default function Projects() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              variants={cardVariants}
-              whileHover={{ y: -6 }}
-              transition={{ duration: 0.3 }}
-              className="group rounded-2xl bg-surface-container border border-outline-variant/20 overflow-hidden shadow-md flex flex-col h-full"
-            >
-              {/* حاوية الصورة مع تأثير الزووم والتعتيم عند الـ Hover */}
-              <div className="relative aspect-[16/10] overflow-hidden bg-surface-container-low border-b border-outline-variant/10">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={project.image}
-                  alt={project.altText}
-                  className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out grayscale-[20%] group-hover:grayscale-0"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
+          {projects.map((project, index) => {
+            // فحص ذكي: لو اسم المشروع يحتوي على Aquaculture أو لوجو، بنعتبره لوجو محتاج احتواء بدلاً من قص
+            const isLogoOnly = project.title.toLowerCase().includes("aquaculture") || project.image.includes("logo");
 
-              {/* تفاصيل المشروع (Project Meta) */}
-              <div className="p-6 flex flex-col flex-grow space-y-4">
-                <div className="space-y-2">
-                  <h3 className="font-heading text-xl font-bold text-on-background group-hover:text-primary transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="font-body text-sm text-on-surface-variant leading-relaxed min-h-[48px]">
-                    {project.description}
-                  </p>
+            return (
+              <motion.div
+                key={index}
+                variants={cardVariants}
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.3 }}
+                className="group rounded-2xl bg-surface-container border border-outline-variant/20 overflow-hidden shadow-md flex flex-col h-full"
+              >
+                {/* حاوية الصورة المعدلة بارتفاع ثابت موحد لجميع الكروت بدون تدمير الأبعاد */}
+                <div className="relative w-full h-52 sm:h-56 overflow-hidden bg-surface-container-low border-b border-outline-variant/10 flex items-center justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={project.image}
+                    alt={project.altText || project.title}
+                    className={`w-full h-full transition-transform duration-500 ease-out group-hover:scale-[1.03] grayscale-[20%] group-hover:grayscale-0 ${
+                      isLogoOnly ? "object-contain p-8 bg-[#121212]" : "object-cover"
+                    }`}
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
 
-                {/* الـ Badges / التقنيات المستخدمة */}
-                <div className="flex flex-wrap gap-2 pt-2">
-                  {project.tags.map((tag, tagIdx) => (
-                    <span
-                      key={tagIdx}
-                      className="font-body text-xs px-3 py-1 rounded-md bg-surface-container-high border border-outline-variant/30 text-on-surface font-medium"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                {/* تفاصيل المشروع (Project Meta) */}
+                <div className="p-6 flex flex-col flex-grow space-y-4">
+                  <div className="space-y-2">
+                    <h3 className="font-heading text-xl font-bold text-on-background group-hover:text-primary transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="font-body text-sm text-on-surface-variant leading-relaxed min-h-[48px]">
+                      {project.description}
+                    </p>
+                  </div>
 
-                {/* زرار المعاينة / Link السفلي */}
-                <div className="pt-4 mt-auto flex items-center justify-between border-t border-outline-variant/10">
-                  {project.link ? (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 font-heading text-sm text-primary font-semibold hover:text-primary-container transition-colors group/link"
-                    >
-                      Live Preview
-                      <ExternalLink className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
-                    </a>
-                  ) : (
-                    <span className="font-body text-xs text-on-surface-variant italic">
-                      Private Enterprise Dashboard
-                    </span>
-                  )}
-                  
-                  <div className="w-2 h-2 rounded-full bg-outline-variant/40 group-hover:bg-primary transition-colors" />
+                  {/* الـ Badges / التقنيات المستخدمة */}
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    {project.tags.map((tag, tagIdx) => (
+                      <span
+                        key={tagIdx}
+                        className="font-body text-xs px-3 py-1 rounded-md bg-surface-container-high border border-outline-variant/30 text-on-surface font-medium"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* زرار المعاينة / Link السفلي */}
+                  <div className="pt-4 mt-auto flex items-center justify-between border-t border-outline-variant/10">
+                    {project.link ? (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 font-heading text-sm text-primary font-semibold hover:text-primary-container transition-colors group/link"
+                      >
+                        Live Preview
+                        <ExternalLink className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                      </a>
+                    ) : (
+                      <span className="font-body text-xs text-on-surface-variant italic">
+                        Private Enterprise Dashboard
+                      </span>
+                    )}
+                    
+                    <div className="w-2 h-2 rounded-full bg-outline-variant/40 group-hover:bg-primary transition-colors" />
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </motion.div>
 
       </div>
