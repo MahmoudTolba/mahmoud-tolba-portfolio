@@ -32,6 +32,8 @@ function SkillIcon({ name }: { name: string }) {
   if (norm.includes("postgre")) return <SiPostgresql className="w-6 h-6 text-[#4169E1]" />;
   if (norm.includes("php")) return <SiPhp className="w-6 h-6 text-[#777BB4]" />;
   if (norm.includes("git")) return <SiGit className="w-6 h-6 text-[#F05032]" />;
+  if (norm.includes("pinia")) return <Cpu className="w-6 h-6 text-primary" />;
+  if (norm.includes("Compass")) return <Laptop className="w-6 h-6 text-primary" />;
   
   return <SiReact className="w-6 h-6 text-primary" />;
 }

@@ -71,7 +71,7 @@ export const portfolioData = {
       title: "Laurette E-Commerce",
       description: "Premium web interface designed for an elegant brand experience, featuring high-fidelity styling and full responsive layout system.",
       tags: ["Vue / Nuxt", "Tailwind"],
-      image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800&auto=format&fit=crop&q=80",
+      image: "/laurtte.png",
       link: "https://laurette-site.vercel.app/",
       altText: "Laurette Store Front & Product Grid Interface"
     },
