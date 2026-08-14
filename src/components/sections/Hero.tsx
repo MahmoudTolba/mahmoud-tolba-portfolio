@@ -122,14 +122,14 @@ export default function Hero() {
         >
           <a
             href="#projects"
-            className="inline-flex items-center justify-center gap-2 font-heading bg-primary text-on-primary px-6 py-3.5 rounded-xl font-semibold hover:bg-primary-container transition-all group shadow-lg shadow-primary/10"
+            className="inline-flex items-center justify-center gap-2 font-heading bg-primary text-on-primary px-6 py-3.5 rounded-xl font-semibold hover:bg-primary-container transition-all group shadow-lg shadow-primary/10 border hover:scale-102"
           >
             <Briefcase className="w-5 h-5" />
             View My Work
           </a>
           <a
             href="#contact"
-            className="inline-flex items-center justify-center gap-2 font-heading bg-surface-container border border-outline-variant/50 text-on-surface px-6 py-3.5 rounded-xl font-semibold hover:bg-surface-container-high transition-all"
+            className="inline-flex items-center justify-center gap-2 font-heading bg-surface-container border border-outline-variant/50 text-on-surface px-6 py-3.5 rounded-xl font-semibold hover:bg-surface-container-high transition-all hover:scale-105"
           >
             Contact Me
             <ArrowDown className="w-4 h-4 animate-bounce mt-0.5" />
