@@ -11,14 +11,16 @@ export interface Experience {
   period: string;
   role: string;
   company: string;
+  location?: string;
   type: string;
   color: "primary" | "secondary" | "tertiary";
+  bullets: string[];
 }
 
 export interface Skill {
   name: string;
   iconUrl?: string;
-  iconName?: string; // لـ Lucide React لاحقاً لو احتجناها
+  iconName?: string;
   hoverColor: string;
   shadowColor: string;
   textColor: string;
@@ -26,10 +28,11 @@ export interface Skill {
 
 export const portfolioData = {
   hero: {
-    status: "متاح للفرص الحالية",
+    status: "Ready for Remote / Onsite Opportunities",
     title: "Mahmoud Tolba: Crafting Next-Gen Interfaces",
-    description: "Innovative Front-End Developer specialized in building fast, responsive, and pixel-perfect web applications using Vue.js, Nuxt.js, React.js and Next.js.",
-    profileImage: "/images/profile.jpg", // سيبه كدا وهقولك تحط الصورة فين في الـ public
+    description:
+      "Innovative Front-End Developer specialized in building fast, responsive, and pixel-perfect web applications using Vue.js, Nuxt.js, React.js and Next.js.",
+    profileImage: "/images/profile.jpg",
   },
   stats: [
     { value: "15+", label: "Projects Contributed", color: "text-primary" },
@@ -42,10 +45,10 @@ export const portfolioData = {
     subtitle: "Technical Prowess",
     paragraphs: [
       "I am a dedicated Front-End Developer with a strong track record of crafting user-centric interfaces. My expertise lies in seamless API integrations, working closely with backend teams to ensure robust application flow.",
-      "Currently transforming ideas into interactive web applications at Awamer Alshabaka and mentoring the next generation of coders as an Instructor at iSchool."
+      "Currently transforming ideas into interactive web applications at Awamer Alshabaka and mentoring the next generation of coders as an Instructor at iSchool.",
     ],
   },
- skills: [
+  skills: [
     { name: "HTML5", hoverColor: "hover:border-[#E34F26]/50", shadowColor: "hover:shadow-[0_0_15px_rgba(227,79,38,0.15)]", textColor: "group-hover:text-[#E34F26]" },
     { name: "CSS3", hoverColor: "hover:border-[#1572B6]/50", shadowColor: "hover:shadow-[0_0_15px_rgba(21,114,182,0.15)]", textColor: "group-hover:text-[#1572B6]" },
     { name: "JavaScript", hoverColor: "hover:border-[#F7DF1E]/50", shadowColor: "hover:shadow-[0_0_15px_rgba(247,223,30,0.15)]", textColor: "group-hover:text-[#F7DF1E]" },
@@ -69,40 +72,83 @@ export const portfolioData = {
   projects: [
     {
       title: "Laurette E-Commerce",
-      description: "Premium web interface designed for an elegant brand experience, featuring high-fidelity styling and full responsive layout system.",
+      description:
+        "Premium web interface designed for an elegant brand experience, featuring high-fidelity styling and full responsive layout system.",
       tags: ["Vue / Nuxt", "Tailwind"],
       image: "/laurtte.png",
       link: "https://laurette-site.vercel.app/",
-      altText: "Laurette Store Front & Product Grid Interface"
+      altText: "Laurette Store Front & Product Grid Interface",
     },
     {
       title: "individuals-rowad Dashboard",
-      description: "A robust admin dashboard offering extensive analytical data views, consulting certification oversight, and financial metric monitors.",
+      description:
+        "A robust admin dashboard offering extensive analytical data views, consulting certification oversight, and financial metric monitors.",
       tags: ["HTML5", "Tailwind", "JS Dashboard"],
       image: "/alrowad.png",
       link: "https://rowad.ip4s.com/?culture=ar",
-      altText: "Rowad Individuals Dashboard UI"
+      altText: "Rowad Individuals Dashboard UI",
     },
     {
       title: "Wattani Aquaculture",
-      description: "A prominent Saudi cooperative web solution built to enhance aquaculture development, supporting advanced multi-language localization.",
+      description:
+        "A prominent Saudi cooperative web solution built to enhance aquaculture development, supporting advanced multi-language localization.",
       tags: ["Nuxt 4", "i18n Localization", "Pinia"],
       image: "/wattani.svg",
-      
       link: "https://wattani-sa.com/",
-      altText: "Wattani Project Management Data UI"
+      altText: "Wattani Project Management Data UI",
     },
     {
       title: "Com-Core Marketplace",
-      description: "A digital marketplace solution designed to connect Saudi local brands directly with target consumers.",
+      description:
+        "A digital marketplace solution designed to connect Saudi local brands directly with target consumers.",
       tags: ["HTML / CSS", "JavaScript"],
-      image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800&auto=format&fit=crop&q=80",
-      altText: "Com-Core Marketplace Web View"
-    }
+      image:
+        "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800&auto=format&fit=crop&q=80",
+      altText: "Com-Core Marketplace Web View",
+    },
   ] as Project[],
   experience: [
-    { period: "04/2026 - Present", role: "Front End Developer", company: "Awamer Alshabaka (Onsite)", type: "Onsite", color: "primary" },
-    { period: "05/2025 - 12/2025", role: "Freelance Web Developer", company: "Remote Projects", type: "Remote", color: "secondary" },
-    { period: "06/2025 - Present", role: "Coding Instructor", company: "@iSchool (Part-Time)", type: "Part-Time", color: "tertiary" }
-  ] as Experience[]
+    {
+      role: "Coding Instructor",
+      company: "@Ischool",
+      location: "Remote",
+      period: "04/2026 – Present",
+      type: "Part-Time",
+      color: "secondary",
+      bullets: [
+        "Taught **Algorithms & Data Structures, Python**, and **Web Fundamentals** to school students.",
+        "Conducted interactive coding sessions and hands-on programming exercises.",
+        "Helped students develop problem-solving, logical thinking, and programming skills.",
+        "Mentored students in building beginner-level coding and web projects.",
+      ],
+    },
+    {
+      role: "Front End Developer",
+      company: "Awamer Alshabaka",
+      location: "Mansoura",
+      period: "06/2025 – Present",
+      type: "Full-Time",
+      color: "primary",
+      bullets: [
+        "Developed and maintained responsive web applications using **Nuxt.js, React.js, and Next.js**.",
+        "Collaborated with **.NET, Laravel, and Node.js** backend teams to integrate REST APIs and deliver complete solutions.",
+        "Built front-end projects from scratch, implementing reusable components, responsive layouts, and modern UI/UX practices.",
+        "Enhanced existing applications through UI improvements, bug fixes, and performance optimization.",
+      ],
+    },
+    {
+      role: "Freelancer",
+      company: "Self-Employed",
+      location: "Remote",
+      period: "2022 – Present",
+      type: "Freelance",
+      color: "tertiary",
+      bullets: [
+        "Developed responsive web applications and landing pages for clients using **Nuxt.js, React.js, and Next.js**.",
+        "Built modern, user-friendly interfaces from design to deployment with a focus on performance and responsiveness.",
+        "Integrated REST APIs and customized features based on client requirements.",
+        "Maintained and enhanced existing projects by improving UI/UX, fixing bugs, and optimizing performance.",
+      ],
+    },
+  ] as Experience[],
 };
