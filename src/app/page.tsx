@@ -11,40 +11,24 @@ import Footer from "../components/sections/Footer";
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
 
-  // التحكم في السكرول والـ Navbar الخارجي أثناء التحميل
+  // الـ Navbar بيتخفى بالـ CSS attribute بدل ما نلمس الـ DOM يدويًا
   useEffect(() => {
-    const globalNav = document.querySelector("header, nav") as HTMLElement;
-
-    if (loading) {
-      document.body.style.overflow = "hidden";
-      if (globalNav) {
-        globalNav.style.display = "none"; // إخفاء الـ Navbar أثناء اللودر
-      }
-    } else {
-      document.body.style.overflow = "unset";
-      if (globalNav) {
-        globalNav.style.display = ""; // 👈 مسح الـ inline style تماماً ليعود للـ Tailwind الأصلي بتاعه بدون تخريب!
-      }
-    }
-
+    document.documentElement.dataset.loading = String(loading);
     return () => {
-      document.body.style.overflow = "unset";
-      if (globalNav) {
-        globalNav.style.display = ""; // إعادة الاستايل الافتراضي عند الخروج
-      }
+      delete document.documentElement.dataset.loading;
     };
   }, [loading]);
 
   return (
     <>
-      {/* 1. اللودر */}
-      {loading && <Loader onComplete={() => setLoading(false)} />}
+      {/* اللودر دايمًا موجود، وهو اللي بيتحكم في ظهوره واختفائه */}
+      <Loader onComplete={() => setLoading(false)} />
 
-      {/* 2. محتوى الصفحة الرئيسي */}
-      <main 
+      <main
         className={`bg-transparent transition-opacity duration-700 ease-in-out ${
-          loading ? "opacity-0 pointer-events-none" : "opacity-100"
+          loading ? "pointer-events-none opacity-0" : "opacity-100"
         }`}
+        aria-hidden={loading}
       >
         <Hero />
         <AboutSkills />
